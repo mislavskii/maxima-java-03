@@ -7,7 +7,6 @@ public class Cat {
 
     public Cat(String name, int weight, boolean isAngry) throws Exception {
         this.name = name;
-//        this.weight = weight;
         this.isAngry = isAngry;
         this.setWeight(weight);
     }
@@ -25,7 +24,7 @@ public class Cat {
     }
 
     public void setWeight(int weight) throws Exception {
-        if (weight <= 0 || weight > 32) {
+        if (weight <= 0) {
             throw new IncorrectCatWeightException("Impossible cat!");
         }
         this.weight = weight;
