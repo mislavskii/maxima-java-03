@@ -6,24 +6,27 @@ import java.time.temporal.ChronoUnit;
 
 /*
 TODO:
- Описать класс Birthday c двумя статическими методами:
- int getAge(int year, int month, int date) — вернет возраст в днях
- LocalDate nextBirthday(int year, int month, int date) — вернет дату следующего дня рождения в 1000 дней.
++ Описать класс Cat (кот) со свойствами
++ name — имя, строка.
++ weight — вес, число int
++ isAngry — сердитость, boolean
++ Описать геттеры и сеттеры всех свойств.
++ Описать свой класс исключений — IncorrectCatWeightException и выбрасывать его при присваивании коту отрицательного веса.
+Описать фабрику котов CatFactory со статическим методом Cat createCat(String name, int weight).
+Этот метод будет пытаться создать кота, если вес указан корректный, то будет создан дружелюбный кот с указанным именем и весом.
+Если вес указан неверно, будет создан сердитый кот весом 5 кг.
  */
+
 public class App {
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws Exception {
 
-        LocalDate today = LocalDate.now();
-        LocalDate birthDate = LocalDate.of(1971, Month.of(11), 17);
-        LocalDate tomorrow = today.plus(1, ChronoUnit.DAYS);
-        LocalDate kDay = today.plus(1000-577, ChronoUnit.DAYS);
 
-        System.out.println("Hello Greater Sobaki! Today is " + today);
-        System.out.println("My birth date is " + birthDate);
-        System.out.println("Tomorrow will be " + tomorrow);
-        System.out.println("My age in days is " + Birthday.getAge(1971, 11, 17));
-        System.out.println("My next kDay magically is " + Birthday.nextBirthday(1971, 11, 17));
-        System.out.println("And manually it is " + kDay);
+        try {
+            Cat cat = new Cat("ThungNgern", -1, false);
+        } catch (IncorrectCatWeightException ex) {
+            System.out.println(ex.getMessage());
+        }
+
 
     }
 }
