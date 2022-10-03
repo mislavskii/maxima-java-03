@@ -1,36 +1,60 @@
 package org.example;
 
-import java.time.LocalDate;
-import java.time.Month;
-import java.time.temporal.ChronoUnit;
+import java.io.*;
+import java.util.Arrays;
+import java.util.Objects;
+
 
 /*
 TODO:
-+ Описать класс Cat (кот) со свойствами
-+ name — имя, строка.
-+ weight — вес, число int
-+ isAngry — сердитость, boolean
-+ Описать геттеры и сеттеры всех свойств.
-+ Описать свой класс исключений — IncorrectCatWeightException и выбрасывать его при присваивании коту отрицательного веса.
-+ Описать фабрику котов CatFactory со статическим методом Cat createCat(String name, int weight).
-+ Этот метод будет пытаться создать кота, если вес указан корректный, то будет создан дружелюбный кот с указанным именем и весом.
-+ Если вес указан неверно, будет создан сердитый кот весом 5 кг.
- */
+Дан csv-файл с разделителями «;», содержащий данные:
+Имя кота, вес кота, сердитость (true или false).
+Сформировать текстовый файл каждая строка которого будет соответствовать строке входного файла и иметь вид:
+<Сердитый (Дружелюбный)> кот <Имя> весом <n>кг.
+Для этого описать интерфейс Transformable с методом void transform(String fileIn, String fileOut).
+Параметрами задается имя входного и имя выходного файла.
+Описать класса, реализующий этот интерфейс:
+TextTransformer, при помощи классов FileReader / FileWriter
+*/
 
 public class App {
-    public static void main( String[] args ) throws IncorrectCatWeightException {
+    public static void main( String[] args ) throws IncorrectCatWeightException, IOException {
 
-        Cat cat = CatFactory.createCat("Bad", -1);
-        System.out.println(cat.getName() + " cat");
-        System.out.println("weight: " + cat.getWeight());
-        System.out.println("angry: " + cat.isAngry());
+        FileWriter writer = new FileWriter("cats.csv", false);
+
+        Cat cat = CatFactory.createCat("Нетокот", -1);
+        String text = cat.getName() + ";" + cat.getWeight() + ";" + cat.isAngry() + "\n";
+        writer.write(text);
+
         System.out.println();
 
-        cat = CatFactory.createCat("Good", 4);
-        System.out.println(cat.getName() + " cat");
-        System.out.println("weight: " + cat.getWeight());
-        System.out.println("angry: " + cat.isAngry());
+        cat = CatFactory.createCat("Хорокот", 4);
+        text = cat.getName() + ";" + cat.getWeight() + ";" + cat.isAngry() + "\n";
+        writer.write(text);
+
+        writer.flush();
+        writer.close();
+
+        FileReader reader = new FileReader("pom.xml");
+        int c;
+        int counter = 0;
+        while((c = reader.read()) != -1 && counter < 33) {
+            counter++;
+            System.out.print((char) c);
+        }
+
         System.out.println();
+
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("cats.csv"));
+        String line;
+        while((line = bufferedReader.readLine()) != null) {
+            String[] arr = line.split(";");
+            System.out.println(Arrays.toString(arr));
+        }
+
+        TextTransformer trans = new TextTransformer();
+        trans.transform("cats.csv", "cats.txt");
 
     }
+
 }
