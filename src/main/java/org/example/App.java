@@ -15,6 +15,10 @@ TODO:
 Параметрами задается имя входного и имя выходного файла.
 Описать класса, реализующий этот интерфейс:
 TextTransformer, при помощи классов FileReader / FileWriter
+
+1. В строках 17-21 if (Objects.equals(arr[2], "true")) { angry = "Сердитый"; } else { angry = "Дружелюбный"; }
+можно использовать метод String, а не Object arr[2].equals("true"), но разницы особой нет.
+2. В 22й строке String outLine = angry + " кот " + arr[0] + " весом " + arr[1] + "кг."; можно использовать String outLine = String.format (...)
 */
 
 public class App {
