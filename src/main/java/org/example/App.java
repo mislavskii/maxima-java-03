@@ -1,64 +1,51 @@
 package org.example;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.Objects;
-
+import java.nio.charset.StandardCharsets;
 
 /*
-TODO:
-Р”Р°РЅ csv-С„Р°Р№Р» СЃ СЂР°Р·РґРµР»РёС‚РµР»СЏРјРё В«;В», СЃРѕРґРµСЂР¶Р°С‰РёР№ РґР°РЅРЅС‹Рµ:
-РРјСЏ РєРѕС‚Р°, РІРµСЃ РєРѕС‚Р°, СЃРµСЂРґРёС‚РѕСЃС‚СЊ (true РёР»Рё false).
-РЎС„РѕСЂРјРёСЂРѕРІР°С‚СЊ С‚РµРєСЃС‚РѕРІС‹Р№ С„Р°Р№Р» РєР°Р¶РґР°СЏ СЃС‚СЂРѕРєР° РєРѕС‚РѕСЂРѕРіРѕ Р±СѓРґРµС‚ СЃРѕРѕС‚РІРµС‚СЃС‚РІРѕРІР°С‚СЊ СЃС‚СЂРѕРєРµ РІС…РѕРґРЅРѕРіРѕ С„Р°Р№Р»Р° Рё РёРјРµС‚СЊ РІРёРґ:
-<РЎРµСЂРґРёС‚С‹Р№ (Р”СЂСѓР¶РµР»СЋР±РЅС‹Р№)> РєРѕС‚ <РРјСЏ> РІРµСЃРѕРј <n>РєРі.
-Р”Р»СЏ СЌС‚РѕРіРѕ РѕРїРёСЃР°С‚СЊ РёРЅС‚РµСЂС„РµР№СЃ Transformable СЃ РјРµС‚РѕРґРѕРј void transform(String fileIn, String fileOut).
-РџР°СЂР°РјРµС‚СЂР°РјРё Р·Р°РґР°РµС‚СЃСЏ РёРјСЏ РІС…РѕРґРЅРѕРіРѕ Рё РёРјСЏ РІС‹С…РѕРґРЅРѕРіРѕ С„Р°Р№Р»Р°.
-РћРїРёСЃР°С‚СЊ РєР»Р°СЃСЃР°, СЂРµР°Р»РёР·СѓСЋС‰РёР№ СЌС‚РѕС‚ РёРЅС‚РµСЂС„РµР№СЃ:
-TextTransformer, РїСЂРё РїРѕРјРѕС‰Рё РєР»Р°СЃСЃРѕРІ FileReader / FileWriter
-
-1. Р’ СЃС‚СЂРѕРєР°С… 17-21 if (Objects.equals(arr[2], "true")) { angry = "РЎРµСЂРґРёС‚С‹Р№"; } else { angry = "Р”СЂСѓР¶РµР»СЋР±РЅС‹Р№"; }
-РјРѕР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РјРµС‚РѕРґ String, Р° РЅРµ Object arr[2].equals("true"), РЅРѕ СЂР°Р·РЅРёС†С‹ РѕСЃРѕР±РѕР№ РЅРµС‚.
-2. Р’ 22Р№ СЃС‚СЂРѕРєРµ String outLine = angry + " РєРѕС‚ " + arr[0] + " РІРµСЃРѕРј " + arr[1] + "РєРі."; РјРѕР¶РЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ String outLine = String.format (...)
+* TODO
+*  Дан csv-файл с разделителями «;», содержащий данные: Имя кота, вес кота, сердитость (true или false).
+*  Сформировать текстовый файл каждая строка которого будет соответствовать строке входного файла и иметь вид:
+*  <Сердитый (Дружелюбный)> кот <Имя> весом <n>кг.
+*  Для этого описать интерфейс Transformable с методом void transform(String fileIn, String fileOut).
+*  Параметрами задается имя входного и имя выходного файла.
+*  Описать класс StreamTransformer, реализующий этот интерфейс при помощи классов FileInputStream / FileOuputStream
 */
 
+
 public class App {
-    public static void main( String[] args ) throws IncorrectCatWeightException, IOException {
+    public static void main( String[] args ) throws Exception {
 
-        FileWriter writer = new FileWriter("cats.csv", false);
+//        TextTransformer trans = new TextTransformer();
+//        trans.transform("cats.csv", "cats.txt");
 
-        Cat cat = CatFactory.createCat("РќРµС‚РѕРєРѕС‚", -1);
-        String text = cat.getName() + ";" + cat.getWeight() + ";" + cat.isAngry() + "\n";
-        writer.write(text);
-
-        System.out.println();
-
-        cat = CatFactory.createCat("РҐРѕСЂРѕРєРѕС‚", 4);
-        text = cat.getName() + ";" + cat.getWeight() + ";" + cat.isAngry() + "\n";
-        writer.write(text);
-
-        writer.flush();
-        writer.close();
-
-        FileReader reader = new FileReader("pom.xml");
-        int c;
-        int counter = 0;
-        while((c = reader.read()) != -1 && counter < 33) {
-            counter++;
-            System.out.print((char) c);
+        StringBuilder result = new StringBuilder();
+        FileInputStream stream;
+        try {
+            stream = new FileInputStream("cats.txt");
+            int r;
+            do {
+                r = stream.read();
+                result.append((char) r);
+            } while (r != -1);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        System.out.println();
+        System.out.println(result);
 
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("cats.csv"));
-        String line;
-        while((line = bufferedReader.readLine()) != null) {
-            String[] arr = line.split(";");
-            System.out.println(Arrays.toString(arr));
+        try {
+            FileOutputStream outStream = new FileOutputStream("out.txt");
+            outStream.write(result.toString().getBytes(StandardCharsets.UTF_8), 0, result.length());
+            outStream.flush();
+            outStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        TextTransformer trans = new TextTransformer();
-        trans.transform("cats.csv", "cats.txt");
-
+        StreamTransformer streamTrans = new StreamTransformer();
+        streamTrans.transform("cats.csv", "cats.txt");
     }
 
 }
