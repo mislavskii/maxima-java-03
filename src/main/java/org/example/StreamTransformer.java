@@ -21,7 +21,6 @@ public class StreamTransformer implements Transformable{
                     String[] arr = result.toString().split(";");
                     String angry = arr[2].equals("true") ? "Angry" : "Friendly";
                     String outLine = String.format("%s cat %s, weight %s kg.", angry, arr[0], arr[1]) + "\n";
-                    System.out.print(outLine);
                     outStream.write(outLine.getBytes(StandardCharsets.UTF_8), 0, outLine.length());
                     result = new StringBuilder();
                 }
