@@ -26,7 +26,6 @@ public class StreamTransformer implements Transformable{
                     result.append((char) r);
                 }
             } while (r != -1);
-
             outStream.flush();
             outStream.close();
         } catch (IOException e) {
