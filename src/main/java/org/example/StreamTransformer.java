@@ -16,15 +16,17 @@ public class StreamTransformer implements Transformable{
             int r;
             do {
                 r = stream.read();
-                result.append((char) r);
                 if (r == '\n' || (r == -1)) {
                     String[] arr = result.toString().split(";");
                     String angry = arr[2].equals("true") ? "Angry" : "Friendly";
                     String outLine = String.format("%s cat %s, weight %s kg.", angry, arr[0], arr[1]) + "\n";
                     outStream.write(outLine.getBytes(StandardCharsets.UTF_8), 0, outLine.length());
                     result = new StringBuilder();
+                } else {
+                    result.append((char) r);
                 }
             } while (r != -1);
+
             outStream.flush();
             outStream.close();
         } catch (IOException e) {
