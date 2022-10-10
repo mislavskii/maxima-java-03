@@ -26,6 +26,7 @@ public class App {
                 r = stream.read();
                 result.append((char) r);
             } while (r != -1);
+            stream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

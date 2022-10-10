@@ -16,13 +16,12 @@ public class StreamTransformer implements Transformable{
             int r;
             do {
                 r = inStream.read();
-                if (r != -1) {
+                if ( (r != -1) && (r != '\r') && (r != '\n') ) {
                     result.append((char) r);
-                }
-                if (result.toString().endsWith("\n") || (r == -1)) {
-                    String line = result.toString();
-                    line = line.replace('\r', ' ').replace('\n', ' ').trim();
-                    String[] arr = line.split(";");
+                } else if (result.length() > 0) {
+                    String[] arr = result.toString()
+                            .replace('\r', ' ').replace('\n', ' ')
+                            .trim().split(";");
                     String angry = arr[2].equals("true") ? "Angry" : "Friendly";
                     String name = arr[0];
                     String weight = arr[1];
