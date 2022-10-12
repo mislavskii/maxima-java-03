@@ -1,27 +1,26 @@
 package org.example;
 
-public class Cat<T> {
+public class Dog<T> {
     private T id;
     private String name;
     private int weight;
     private boolean isAngry;
 
-    public Cat(String name, int weight) throws IncorrectCatWeightException {
+    public Dog(String name, int weight) {
         this.id = null;
         this.isAngry = false;
         this.name = name;
         this.weight = weight;
     }
 
-    public Cat(String name, int weight, boolean isAngry) throws IncorrectCatWeightException {
+    public Dog(String name, int weight, boolean isAngry) {
         this.id = null;
         this.isAngry = isAngry;
         this.name = name;
         this.weight = weight;
-
     }
 
-    public Cat(String name, int weight, boolean isAngry, T id) throws IncorrectCatWeightException {
+    public Dog(String name, int weight, boolean isAngry, T id) throws IncorrectCatWeightException {
         this.name = name;
         this.id = id;
         this.isAngry = isAngry;
@@ -65,7 +64,7 @@ public class Cat<T> {
 
     @Override
     public String toString() {
-        return "Cat{" +
+        return "Dog{" +
                 "name='" + name + '\'' +
                 ", weight=" + weight +
                 '}';

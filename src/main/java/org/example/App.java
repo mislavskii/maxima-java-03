@@ -1,49 +1,54 @@
 package org.example;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
 
 /*
 * TODO
-*  Дан csv-файл с разделителями «;», содержащий данные: Имя кота, вес кота, сердитость (true или false).
-*  Сформировать текстовый файл каждая строка которого будет соответствовать строке входного файла и иметь вид:
-*  <Сердитый (Дружелюбный)> кот <Имя> весом <n>кг.
-*  Для этого описать интерфейс Transformable с методом void transform(String fileIn, String fileOut).
-*  Параметрами задается имя входного и имя выходного файла.
-*  Описать класс StreamTransformer, реализующий этот интерфейс при помощи классов FileInputStream / FileOuputStream
+Описать класс Dog с методами аналогичными классу Cat, но не имеющего с ним общих предков.
+Описать интерфейс AnimalKitchen — описывает кормление группы любых животных. Методы:
+void add ( экземпляр животного) — добавить животное в очередь.
+void feed() - покормить очередное животное (исключить его из очереди на кормление).
+Описать два класса QueueKitchen и StackKitchen, реализующие кормление животных по принципам FIFO и LIFO соответственно.
+Подсказка: В каждом классе должно быть определено свойство animals типа ArrayList
 */
 
 
+import java.util.ArrayList;
+
 public class App {
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IncorrectCatWeightException {
 
-        StringBuilder result = new StringBuilder();
-        FileInputStream stream;
-        try {
-            stream = new FileInputStream("cats.txt");
-            int r;
-            do {
-                r = stream.read();
-                result.append((char) r);
-            } while (r != -1);
-            stream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Cat<String> murke = new Cat<>("Murke", 3);
+        murke.setId("M0422");
+
+        Cat<Long> barseg = new Cat<>("Barseg", 5);
+        barseg.setId(666L);
+
+        Cat murzeg = new Cat("Murzeg", 7);
+
+        ArrayList<Cat> cats = new ArrayList<>();
+        cats.add(murzeg);
+        cats.add(barseg);
+        cats.add(murke);
+
+        System.out.println(cats.size());
+        System.out.println(cats.get(0));
+
+        for(Cat cat : cats) {
+            System.out.println(cat);
         }
 
-        System.out.println(result);
+        QueueKitchen qK = new QueueKitchen();
 
-        try {
-            FileOutputStream outStream = new FileOutputStream("out.txt");
-            outStream.write(result.toString().getBytes(StandardCharsets.UTF_8), 0, result.length());
-            outStream.flush();
-            outStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (Cat cat : cats) {
+            qK.add(cat);
         }
 
-        StreamTransformer streamTrans = new StreamTransformer();
-        streamTrans.transform("cats.csv", "cats.txt");
+        System.out.println(qK.getAnimals());
+
+        qK.feed();
+
+        System.out.println(qK.getAnimals());
+
     }
 
 }

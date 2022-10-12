@@ -26,7 +26,7 @@ public class StreamTransformer implements Transformable{
                     String name = arr[0];
                     String weight = arr[1];
                     String outLine = String.format("%s cat %s, weight %s kg.", angry, name, weight) + "\n";
-                    outStream.write(outLine.getBytes(StandardCharsets.UTF_8), 0, outLine.length());
+                    outStream.write(outLine.getBytes(StandardCharsets.ISO_8859_1), 0, outLine.length());
                     result = new StringBuilder();
                 }
             } while (r != -1);
