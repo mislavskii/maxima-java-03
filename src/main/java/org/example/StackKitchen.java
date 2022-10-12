@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.ArrayList;
 
-public class QueueKitchen implements AnimalKitchen {
+public class StackKitchen implements AnimalKitchen {
 
     private ArrayList<Object> animals = new ArrayList<>();
 
@@ -18,7 +18,7 @@ public class QueueKitchen implements AnimalKitchen {
     @Override
     public void feed() {
         if (animals.size() > 0) {
-            animals.remove(0);
+            animals.remove(animals.size() - 1);
         }
     }
 }

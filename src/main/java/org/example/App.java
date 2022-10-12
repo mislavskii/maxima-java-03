@@ -33,21 +33,21 @@ public class App {
         System.out.println(cats.size());
         System.out.println(cats.get(0));
 
-        for(Cat cat : cats) {
-            System.out.println(cat);
-        }
+        for(Cat cat : cats) System.out.println(cat);
+        System.out.println();
 
         QueueKitchen qK = new QueueKitchen();
-
-        for (Cat cat : cats) {
-            qK.add(cat);
-        }
-
+        for (Cat cat : cats) qK.add(cat);
         System.out.println(qK.getAnimals());
-
         qK.feed();
-
         System.out.println(qK.getAnimals());
+        System.out.println();
+
+        StackKitchen sK = new StackKitchen();
+        for (Cat cat : cats) sK.add(cat);
+        System.out.println(sK.getAnimals());
+        sK.feed();
+        System.out.println(sK.getAnimals());
 
     }
 

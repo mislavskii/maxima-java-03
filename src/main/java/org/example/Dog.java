@@ -20,7 +20,7 @@ public class Dog<T> {
         this.weight = weight;
     }
 
-    public Dog(String name, int weight, boolean isAngry, T id) throws IncorrectCatWeightException {
+    public Dog(String name, int weight, boolean isAngry, T id) {
         this.name = name;
         this.id = id;
         this.isAngry = isAngry;
@@ -47,10 +47,7 @@ public class Dog<T> {
         return weight;
     }
 
-    public void setWeight(int weight) throws IncorrectCatWeightException {
-        if (weight <= 0) {
-            throw new IncorrectCatWeightException("Impossible cat!");
-        }
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 
