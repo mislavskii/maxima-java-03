@@ -2,16 +2,16 @@ package org.example;
 
 import java.util.ArrayList;
 
-public class QueueKitchen implements AnimalKitchen {
+public class QueueKitchen<T> implements AnimalKitchen<T>{
 
-    private ArrayList<Object> animals = new ArrayList<>();
+    ArrayList<T> animals = new ArrayList<>();
 
-    public ArrayList<Object> getAnimals() {
+    public ArrayList<T> getAnimals() {
         return animals;
     }
 
     @Override
-    public void add(Object animal) {
+    public void add(T animal) {
         animals.add(animal);
     }
 

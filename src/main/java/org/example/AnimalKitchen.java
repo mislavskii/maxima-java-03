@@ -1,10 +1,9 @@
 package org.example;
 
-public interface AnimalKitchen {
+public interface AnimalKitchen<T> {
 
-    void add (Object animal);
+    void add(T animal);
 
     void feed();
-
 
 }
