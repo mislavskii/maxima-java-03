@@ -9,6 +9,9 @@ void add ( экземпляр животного) — добавить живо�
 void feed() - покормить очередное животное (исключить его из очереди на кормление).
 Описать два класса QueueKitchen и StackKitchen, реализующие кормление животных по принципам FIFO и LIFO соответственно.
 Подсказка: В каждом классе должно быть определено свойство animals типа ArrayList
+*
+* в классах много дублирования кода: свойство Animals, его геттер, метод add.
+* Если сюда придет изменение, будете переписывать в двух местах. Поэтому нужно сразу избавиться от дублирования.
 */
 
 
@@ -33,9 +36,12 @@ public class App {
         System.out.println(cats.size());
         System.out.println(cats.get(0));
 
+        System.out.println("All animals: ");
+
         for(Cat cat : cats) System.out.println(cat);
         System.out.println();
 
+        System.out.println("Queue:");
         QueueKitchen qK = new QueueKitchen();
         for (Cat cat : cats) qK.add(cat);
         System.out.println(qK.getAnimals());
@@ -43,6 +49,7 @@ public class App {
         System.out.println(qK.getAnimals());
         System.out.println();
 
+        System.out.println("Stack:");
         StackKitchen sK = new StackKitchen();
         for (Cat cat : cats) sK.add(cat);
         System.out.println(sK.getAnimals());
