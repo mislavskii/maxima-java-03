@@ -3,58 +3,118 @@ package org.example;
 
 /*
 * TODO
-Описать класс Dog с методами аналогичными классу Cat, но не имеющего с ним общих предков.
-Описать интерфейс AnimalKitchen — описывает кормление группы любых животных. Методы:
-void add ( экземпляр животного) — добавить животное в очередь.
-void feed() - покормить очередное животное (исключить его из очереди на кормление).
-Описать два класса QueueKitchen и StackKitchen, реализующие кормление животных по принципам FIFO и LIFO соответственно.
-Подсказка: В каждом классе должно быть определено свойство animals типа ArrayList
-*
-* в классах много дублирования кода: свойство Animals, его геттер, метод add.
-* Если сюда придет изменение, будете переписывать в двух местах. Поэтому нужно сразу избавиться от дублирования.
+Описать класс CatStatistics со статическими методами:
++ ArrayList<Cat> sortByNameAscending(ArrayList<Cat> cats) — возвращает список котов, отсортировав по имени по возрастанию.
++ ArrayList<Cat> sortByWeightDescending(ArrayList<Cat> cats) — возвращает список котов, отсортировав по убыванию веса.
++ ArrayList<Cat> removeFirstAndLast (ArrayList<Cat> cats) — возвращает список котов кроме первого и последнего.
++ Cat findFirstNonAngryCat (ArrayList<Cat> cats) — возвращает первого не-сердитого кота в списке.
++ int getCommonWeight(ArrayList<Cat> cats, boolean onlyAngry) — возвращает суммарный вес всех котов (если параметр onlyAngry равен true, то только сердитых котов).
+Map<String, List<Cat>> groupCatsByFirstLetter (ArrayList<Cat> cats) — возвращает список котов сгруппировав их по первой букве имени и отсортировав группировку по возрастанию.
 */
 
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.function.BinaryOperator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class App {
     public static void main( String[] args ) throws IncorrectCatWeightException {
 
-        Cat<String> murke = new Cat<>("Murke", 3);
-        murke.setId("M0422");
+        Cat<String> murka = new Cat<>("Мурка", 3);
+        murka.setId("M0422");
 
-        Cat<Long> barseg = new Cat<>("Barseg", 5);
-        barseg.setId(666L);
+        Cat<Long> barsik = new Cat<>("Барсик", 5);
+        barsik.setId(666L);
 
-        Cat murzeg = new Cat("Murzeg", 7);
+        Cat murzik = new Cat("Мурзик", 7);
 
         ArrayList<Cat> cats = new ArrayList<>();
-        cats.add(murzeg);
-        cats.add(barseg);
-        cats.add(murke);
+        cats.add(murzik);
+        cats.add(barsik);
+        cats.add(murka);
 
-        System.out.println(cats.size());
-        System.out.println(cats.get(0));
+        Map <String, Cat> mappedCats = new HashMap<>();
 
-        System.out.println("All animals: ");
+        for (Cat cat : cats) mappedCats.put(cat.getName(), cat);
 
-        for(Cat cat : cats) System.out.println(cat);
+        System.out.println(mappedCats);
         System.out.println();
 
-        System.out.println("Queue:");
-        QueueKitchen qK = new QueueKitchen();
-        for (Cat cat : cats) qK.add(cat);
-        System.out.println(qK.getAnimals());
-        qK.feed();
-        System.out.println(qK.getAnimals());
+        System.out.println(mappedCats.get("Murke"));
         System.out.println();
 
-        System.out.println("Stack:");
-        StackKitchen sK = new StackKitchen();
-        for (Cat cat : cats) sK.add(cat);
-        System.out.println(sK.getAnimals());
-        sK.feed();
-        System.out.println(sK.getAnimals());
+        for (String key : mappedCats.keySet()) {
+            System.out.println(key);
+            System.out.println(mappedCats.get(key));
+        }
+
+        Arithmetic action = Calculator.getAction(1);
+        System.out.println(Calculator.doAction(20, 10, action));
+
+        Arithmetic summation = (x, y) -> x + y;
+        System.out.println(summation.getResult(30, 40));
+
+        Arithmetic division = (x, y) -> {
+            return y == 0 ? 0 : x / y;
+        };
+        System.out.println(division.getResult(3, 0));
+
+        BinaryOperator<Integer> addition = (x, y) -> x + y;
+        System.out.println(addition.apply(3, 4));
+
+        Comparator<Cat> byWeight = (cat1, cat2) -> {
+            return cat1.getWeight() - cat2.getWeight();
+        };
+
+        Comparator<Cat> byName = Comparator.comparing(Cat::getName);
+
+        System.out.println(byWeight.compare(murka, murzik));
+        System.out.println(byName.compare(murzik, barsik));
+
+        System.out.println("Коты:");
+        cats.stream().forEach(System.out::println);
+        System.out.println("Лямбда коты:");
+        cats.forEach(cat -> System.out.println(cat.getName().charAt(0)));
+
+        ArrayList<Cat> newCats = Stream.of(murzik, barsik, murka).collect(Collectors.toCollection(ArrayList::new));
+        System.out.println(newCats.stream().anyMatch(cat -> cat.getWeight() > 5));
+
+        System.out.println();
+        System.out.println("Mapped cats");
+        cats.stream()
+                .filter(cat -> cat.getWeight() < 6)
+                .map(Cat::getName)
+//                .sorted((name1, name2) -> name2.compareTo(name1))
+                .sorted(Comparator.reverseOrder())
+//                .sorted(String::compareTo)
+                .forEach(System.out::println);
+        System.out.println();
+
+        cats.stream()
+                .sorted((cat1, cat2) -> cat1.getWeight() -  cat2.getWeight())
+                .map(Cat::getName)
+                .forEach(System.out::println);
+
+        System.out.println();
+        Cat fatCat;
+        fatCat = cats.stream()
+                .filter(cat -> cat.getWeight() > 7)
+                .findFirst().orElse(new Cat("Колбас", 22));
+        cats.add(fatCat);
+
+        System.out.println(CatStatistics.sortByNameAscending(cats));
+        System.out.println(CatStatistics.sortByWeightDescending(cats));
+        System.out.println();
+
+        System.out.println(cats);
+        System.out.println(CatStatistics.removeFirstAndLast(cats));
+        System.out.println();
+
+        System.out.println(CatStatistics.findFirstNonAngryCat(cats));
+        murka.setAngry(true);
+        System.out.println(CatStatistics.getCommonWeight(cats, true));
+        System.out.println(CatStatistics.groupCatsByFirstLetter(cats));
 
     }
 
