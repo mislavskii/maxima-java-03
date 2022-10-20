@@ -28,11 +28,13 @@ public class App {
         barsik.setId(666L);
 
         Cat murzik = new Cat("Мурзик", 7);
+        Cat meow = new Cat("Мяу", 4, true);
 
         ArrayList<Cat> cats = new ArrayList<>();
-        cats.add(murzik);
+        cats.add(meow);
         cats.add(barsik);
         cats.add(murka);
+        cats.add(murzik);
 
         Map <String, Cat> mappedCats = new HashMap<>();
 
@@ -63,9 +65,7 @@ public class App {
         BinaryOperator<Integer> addition = (x, y) -> x + y;
         System.out.println(addition.apply(3, 4));
 
-        Comparator<Cat> byWeight = (cat1, cat2) -> {
-            return cat1.getWeight() - cat2.getWeight();
-        };
+        Comparator<Cat> byWeight = Comparator.comparingInt(Cat::getWeight);
 
         Comparator<Cat> byName = Comparator.comparing(Cat::getName);
 

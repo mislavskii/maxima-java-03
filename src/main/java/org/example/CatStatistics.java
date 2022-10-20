@@ -1,5 +1,6 @@
 package org.example;
 
+import java.security.Key;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -38,16 +39,12 @@ public class CatStatistics {
 
     public static Map<String, List<Cat>> groupCatsByFirstLetter (ArrayList<Cat> cats) {
 //      возвращает список котов, сгруппировав их по первой букве имени и отсортировав группировку по возрастанию.
-        Map <String, List<Cat>> groupedCats = new HashMap<>();
-        for (Cat cat : cats) {
-            String initial = String.valueOf(cat.getName().charAt(0));
-            if (!groupedCats.containsKey(initial)) {
-                groupedCats.put(initial, cats.stream()
-                        .filter(c -> String.valueOf(c.getName().charAt(0)).equals(initial))
+        Map <String, List<Cat>> groupedCats = cats.stream()
+                .collect(Collectors.groupingBy(cat -> cat.getName().substring(0,1)));
+        groupedCats.entrySet().forEach(entry -> entry.setValue(
+                entry.getValue().stream()
                         .sorted(Comparator.comparing(Cat::getName))
-                        .collect(Collectors.toList()));
-            }
-        }
+                        .collect(Collectors.toList())));
         return groupedCats;
     }
 
