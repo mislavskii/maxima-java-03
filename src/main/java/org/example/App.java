@@ -9,7 +9,7 @@ package org.example;
 + ArrayList<Cat> removeFirstAndLast (ArrayList<Cat> cats) — возвращает список котов кроме первого и последнего.
 + Cat findFirstNonAngryCat (ArrayList<Cat> cats) — возвращает первого не-сердитого кота в списке.
 + int getCommonWeight(ArrayList<Cat> cats, boolean onlyAngry) — возвращает суммарный вес всех котов (если параметр onlyAngry равен true, то только сердитых котов).
-Map<String, List<Cat>> groupCatsByFirstLetter (ArrayList<Cat> cats) — возвращает список котов сгруппировав их по первой букве имени и отсортировав группировку по возрастанию.
++ Map<String, List<Cat>> groupCatsByFirstLetter (ArrayList<Cat> cats) — возвращает список котов сгруппировав их по первой букве имени и отсортировав группировку по возрастанию.
 */
 
 
@@ -41,7 +41,7 @@ public class App {
         System.out.println(mappedCats);
         System.out.println();
 
-        System.out.println(mappedCats.get("Murke"));
+        System.out.println(mappedCats.get("Мурка"));
         System.out.println();
 
         for (String key : mappedCats.keySet()) {

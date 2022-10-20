@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CatStatistics {
 
@@ -31,13 +32,8 @@ public class CatStatistics {
     }
 
     public static int getCommonWeight(ArrayList<Cat> cats, boolean onlyAngry) {
-        ArrayList<Cat> ourCats = cats;
-        if (onlyAngry) {
-            ourCats = ourCats.stream()
-                    .filter(Cat::isAngry)
-                    .collect(Collectors.toCollection(ArrayList::new));
-        }
-        return ourCats.stream().mapToInt(Cat::getWeight).sum();
+        Stream<Cat> finalCats = onlyAngry ? cats.stream().filter(Cat::isAngry) : cats.stream();
+        return finalCats.mapToInt(Cat::getWeight).sum();
     }
 
     public static Map<String, List<Cat>> groupCatsByFirstLetter (ArrayList<Cat> cats) {
